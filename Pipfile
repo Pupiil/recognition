@@ -7,6 +7,8 @@ name = "pypi"
 imutils = "*"
 face-recognition = "*"
 opencv-python = "*"
+twine = "*"
+build = "*"
 
 [dev-packages]
 
