@@ -10,18 +10,22 @@ import socket
 sel = selectors.DefaultSelector()
 
 
-def create_request(value):
+def create_request(action):
     return dict(
-        type="binary/custom-client-binary-type",
-        encoding="binary",
-        content=bytes(value, encoding="utf-8"),
+        type="text/json",
+        encoding="utf-8",
+        content=dict(
+            action=action,
+            value=pupiilcommon.MacAuxClass.MacAux().get_machine_info(),
+        ),
     )
 
 
-def start_connection(host, port, request):
+def start_connection(host, port, request, client):
     addr = (host, port)
-    print(f"Starting connection to {addr}")
+    print(f"[RECOGNITION::RECOGNITION] Starting connection to {addr}")
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.bind((client[0], client[1]))
     sock.setblocking(False)
     sock.connect_ex(addr)
     events = selectors.EVENT_READ | selectors.EVENT_WRITE
@@ -31,10 +35,20 @@ def start_connection(host, port, request):
 
 def main():
 
-    config = {"client_ip": "127.1.1.1", "client_port": 6010, "value": "stream"}
+    config = {
+        "client_ip": "127.46.75.34",
+        "client_port": 6049,
+        "recognition_ip": "127.51.64.12",
+        "recognition_port": 5235,
+        "action": "stream",
+        "value": "",
+    }
 
     start_connection(
-        config["client_ip"], config["client_port"], create_request(config["value"])
+        config["client_ip"],
+        config["client_port"],
+        create_request(config["action"]),
+        (config["recognition_ip"], config["recognition_port"]),
     )
 
     try:
