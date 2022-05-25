@@ -9,12 +9,14 @@ import socket
 
 sel = selectors.DefaultSelector()
 
+
 def create_request(value):
     return dict(
         type="binary/custom-client-binary-type",
         encoding="binary",
         content=bytes(value, encoding="utf-8"),
     )
+
 
 def start_connection(host, port, request):
     addr = (host, port)
@@ -29,13 +31,11 @@ def start_connection(host, port, request):
 
 def main():
 
-    config = {
-        "client_ip": "127.1.1.1",
-        "client_port": 6005,
-        "value": "stream"
-    }
-    
-    start_connection(config["client_ip"], config["client_port"], create_request(config["value"]))
+    config = {"client_ip": "127.1.1.1", "client_port": 6010, "value": "stream"}
+
+    start_connection(
+        config["client_ip"], config["client_port"], create_request(config["value"])
+    )
 
     try:
         while True:
@@ -56,9 +56,8 @@ def main():
     except KeyboardInterrupt:
         print("Caught keyboard interrupt, exiting")
     finally:
-        sel.close()    
+        sel.close()
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

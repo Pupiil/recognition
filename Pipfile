@@ -4,11 +4,16 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+pillow = "*"
+face-recognition-models = "*"
+dlib = "*"
 imutils = "*"
 face-recognition = "*"
 opencv-python = "*"
 twine = "*"
 build = "*"
+netifaces = "==0.11.0"
+pyopenssl = "==22.0.0"
 
 [dev-packages]
 
